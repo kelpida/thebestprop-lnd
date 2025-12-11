@@ -52,7 +52,7 @@ const Hero = () => {
 
       {/* CTA Button */}
       <Button variant="hero" size="lg" className="mt-8 z-10" asChild>
-        <a href="https://trader.thebestprop.com/auth/signup/challenge" target="_blank" rel="noopener noreferrer">Start Now</a>
+        <a href="https://thebestprop.com/checkout" target="_blank" rel="noopener noreferrer">Start Now</a>
       </Button>
     </section>
   );

@@ -60,7 +60,7 @@ const ChallengeCard = ({ name, image, specs, prices, activePrice = 0 }: Challeng
 
         {/* CTA */}
         <Button variant="funded" className="mt-3" asChild>
-          <a href="https://trader.thebestprop.com/auth/signup/challenge" target="_blank" rel="noopener noreferrer">Get Funded</a>
+          <a href="https://thebestprop.com/checkout" target="_blank" rel="noopener noreferrer">Get Funded</a>
         </Button>
       </div>
     </div>
