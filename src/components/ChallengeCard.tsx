@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface ChallengeSpec {
   label: string;
@@ -58,8 +59,8 @@ const ChallengeCard = ({ name, image, specs, prices, activePrice = 0 }: Challeng
         </div>
 
         {/* CTA */}
-        <Button variant="funded" className="mt-3">
-          Get Funded
+        <Button variant="funded" className="mt-3" asChild>
+          <a href="https://trader.thebestprop.com/auth/signup/challenge" target="_blank" rel="noopener noreferrer">Get Funded</a>
         </Button>
       </div>
     </div>

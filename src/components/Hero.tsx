@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { DollarSign, Gift } from "lucide-react";
 import heroBg from "@/assets/hero-bg.png";
 import logoWhite from "@/assets/logo-white.png";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -50,8 +51,8 @@ const Hero = () => {
       </h1>
 
       {/* CTA Button */}
-      <Button variant="hero" size="lg" className="mt-8 z-10">
-        Start Now
+      <Button variant="hero" size="lg" className="mt-8 z-10" asChild>
+        <a href="https://trader.thebestprop.com/auth/signup/challenge" target="_blank" rel="noopener noreferrer">Start Now</a>
       </Button>
     </section>
   );
