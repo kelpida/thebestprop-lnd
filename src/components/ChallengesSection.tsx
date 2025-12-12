@@ -1,20 +1,14 @@
+import { ChallengeGroup } from "@/hooks/useChallenges";
 import ChallengeCard from "./ChallengeCard";
-
-interface Challenge {
-  name: string;
-  image: string;
-  specs: { label: string; value: string }[];
-  prices: string[];
-  activePrice?: number;
-}
 
 interface ChallengesSectionProps {
   title: string;
   subtitle?: string;
-  challenges: Challenge[];
+  challenges: ChallengeGroup[];
+  images: Record<string, string>;
 }
 
-const ChallengesSection = ({ title, subtitle, challenges }: ChallengesSectionProps) => {
+const ChallengesSection = ({ title, subtitle, challenges, images }: ChallengesSectionProps) => {
   return (
     <section className="py-12 px-4">
       <div className="container">
@@ -25,9 +19,21 @@ const ChallengesSection = ({ title, subtitle, challenges }: ChallengesSectionPro
           {title}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {challenges.map((challenge, index) => (
-            <ChallengeCard key={index} {...challenge} />
-          ))}
+          {challenges.map((challenge, index) => {
+             // Try to find image by exact name match, case-insensitive match, or fallback
+             const normalize = (s: string) => s.toLowerCase().trim();
+             const imgKey = Object.keys(images).find(k => normalize(k) === normalize(challenge.name));
+             const image = imgKey ? images[imgKey] : images["default"] || "";
+             
+             return (
+               <ChallengeCard 
+                 key={index} 
+                 name={challenge.name}
+                 image={image}
+                 options={challenge.options}
+               />
+             );
+          })}
         </div>
       </div>
     </section>

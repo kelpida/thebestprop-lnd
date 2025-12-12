@@ -11,98 +11,40 @@ import mercuryImg from "@/assets/mercury.png";
 import marsImg from "@/assets/mars.png";
 import jupiterImg from "@/assets/jupiter.png";
 import logo3dImg from "@/assets/logo-3d-gifts.png";
-
-const oneStepChallenges = [
-  {
-    name: "Venus",
-    image: venusImg,
-    specs: [
-      { label: "Profit Target", value: "$1500" },
-      { label: "Daily Loss", value: "Unlimited" },
-      { label: "Total Loss", value: "5%" },
-      { label: "Time Limit", value: "Unlimited" },
-      { label: "Leverage", value: "FX 1:30" },
-      { label: "Payout Frequency", value: "7 days" },
-    ],
-    prices: ["$ 10,000", "$ 25,000"],
-    activePrice: 1,
-  },
-  {
-    name: "Earth",
-    image: earthImg,
-    specs: [
-      { label: "Profit Target", value: "$7500" },
-      { label: "Daily Loss", value: "4%" },
-      { label: "Total Loss", value: "9%" },
-      { label: "Time Limit", value: "Unlimited" },
-      { label: "Leverage", value: "FX 1:30" },
-      { label: "Payout Frequency", value: "7 days" },
-    ],
-    prices: ["$ 50,000", "$ 100,000", "$ 200,000"],
-    activePrice: 1,
-  },
-];
-
-const twoStepChallenges = [
-  {
-    name: "meteorite",
-    image: meteoriteImg,
-    specs: [
-      { label: "Profit Target", value: "$120" },
-      { label: "Daily Loss", value: "Unlimited" },
-      { label: "Total Loss", value: "5%" },
-      { label: "Time Limit", value: "Unlimited" },
-      { label: "Leverage", value: "FX 1:30" },
-      { label: "Payout Frequency", value: "7 days" },
-    ],
-    prices: ["$ 3,000"],
-    activePrice: 0,
-  },
-  {
-    name: "Mercury",
-    image: mercuryImg,
-    specs: [
-      { label: "Profit Target", value: "$800" },
-      { label: "Daily Loss", value: "Unlimited" },
-      { label: "Total Loss", value: "5%" },
-      { label: "Time Limit", value: "Unlimited" },
-      { label: "Leverage", value: "FX 1:30" },
-      { label: "Payout Frequency", value: "7 days" },
-    ],
-    prices: ["$ 10,000"],
-    activePrice: 0,
-  },
-  {
-    name: "Mars",
-    image: marsImg,
-    specs: [
-      { label: "Profit Target", value: "$2000" },
-      { label: "Daily Loss", value: "5%" },
-      { label: "Total Loss", value: "10%" },
-      { label: "Time Limit", value: "Unlimited" },
-      { label: "Leverage", value: "FX 1:30" },
-      { label: "Payout Frequency", value: "7 days" },
-    ],
-    prices: ["$ 25,000"],
-    activePrice: 0,
-  },
-  {
-    name: "Jupiter",
-    image: jupiterImg,
-    specs: [
-      { label: "Profit Target", value: "$4000" },
-      { label: "Daily Loss", value: "5%" },
-      { label: "Total Loss", value: "10%" },
-      { label: "Time Limit", value: "Unlimited" },
-      { label: "Leverage", value: "FX 1:30" },
-      { label: "Payout Frequency", value: "7 days" },
-    ],
-    prices: ["$ 50,000", "$ 100,000", "$ 200,000"],
-    activePrice: 1,
-  },
-];
+import { useChallenges } from "@/hooks/useChallenges";
 
 const Index = () => {
+  const { data, isLoading, error } = useChallenges();
+
+  const images: Record<string, string> = {
+    "One Step Challenge": earthImg,
+    Venus: venusImg,
+    Earth: earthImg,
+    Meteorite: meteoriteImg,
+    Mercury: mercuryImg,
+    Mars: marsImg,
+    Jupiter: jupiterImg,
+    default: earthImg
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">Loading challenges...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+     console.error("Failed to load challenges", error);
+     // Fallback UI could be improved
+     return (
+       <div className="min-h-screen bg-background flex items-center justify-center">
+         <p className="text-destructive">Failed to load challenges. Please try again later.</p>
+       </div>
+     );
+  }
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -110,11 +52,13 @@ const Index = () => {
       <ChallengesSection
         title="One Step Challenges"
         subtitle="TheBestProp Challenges"
-        challenges={oneStepChallenges}
+        challenges={data?.oneStepChallenges || []}
+        images={images}
       />
       <ChallengesSection
         title="Two Step Challenges"
-        challenges={twoStepChallenges}
+        challenges={data?.twoStepChallenges || []}
+        images={images}
       />
       <WhySection logoImage={logo3dImg} />
       <Footer />

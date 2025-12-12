@@ -1,20 +1,28 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-
-interface ChallengeSpec {
-  label: string;
-  value: string;
-}
+import { useState } from "react";
+import { ChallengeOption } from "@/hooks/useChallenges";
 
 interface ChallengeCardProps {
   name: string;
   image: string;
-  specs: ChallengeSpec[];
-  prices: string[];
-  activePrice?: number;
+  options: ChallengeOption[];
 }
 
-const ChallengeCard = ({ name, image, specs, prices, activePrice = 0 }: ChallengeCardProps) => {
+const ChallengeCard = ({ name, image, options }: ChallengeCardProps) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const selectedOption = options[selectedIndex];
+
+  if (!selectedOption) return null;
+
+  const specs = [
+    { label: "Profit Target", value: selectedOption.profitTarget ? `$${selectedOption.profitTarget}` : "-" },
+    { label: "Daily Loss", value: selectedOption.dailyPercentage === 100 ? "Unlimited" : `${selectedOption.dailyPercentage}%` },
+    { label: "Total Loss", value: selectedOption.totalPercentage === 0 ? "Unlimited" : `${selectedOption.totalPercentage}%` },
+    { label: "Time Limit", value: "Unlimited" },
+    { label: "Leverage", value: "FX 1:30" },
+    { label: "Payout Frequency", value: "7 days" },
+  ];
+
   return (
     <div className="glass-card rounded-xl overflow-hidden card-glow transition-transform duration-300 hover:scale-[1.02]">
       {/* Planet Image */}
@@ -47,13 +55,14 @@ const ChallengeCard = ({ name, image, specs, prices, activePrice = 0 }: Challeng
 
         {/* Prices */}
         <div className="flex gap-2 pt-3 flex-wrap">
-          {prices.map((price, index) => (
+          {options.map((option, index) => (
             <Button
-              key={index}
-              variant={index === activePrice ? "priceActive" : "price"}
+              key={option.id}
+              variant={index === selectedIndex ? "priceActive" : "price"}
               className="flex-1 min-w-fit"
+              onClick={() => setSelectedIndex(index)}
             >
-              {price}
+              $ {option.initialBalance.toLocaleString()}
             </Button>
           ))}
         </div>
