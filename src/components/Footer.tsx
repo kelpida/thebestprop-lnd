@@ -16,7 +16,7 @@ const Footer = () => {
           <ArrowUp className="w-5 h-5 text-primary-foreground" />
         </button>
         <p className="text-xs text-muted-foreground">
-          © 2025 TheBestProp
+          © 2026 TheBestProp
         </p>
       </div>
     </footer>
